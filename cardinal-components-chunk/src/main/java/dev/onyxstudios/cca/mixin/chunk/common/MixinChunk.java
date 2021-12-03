@@ -33,6 +33,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.UpgradeData;
 import net.minecraft.world.gen.chunk.Blender;
+import net.minecraft.world.gen.chunk.BlendingData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,7 +46,7 @@ public class MixinChunk implements ComponentProvider {
     private ComponentContainer components;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void initComponents(ChunkPos pos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> biome, long inhabitedTime, ChunkSection[] sectionArrayInitializer, Blender blendingData, CallbackInfo ci) {
+    private void initComponents(ChunkPos pos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> biome, long inhabitedTime, ChunkSection[] sectionArrayInitializer, BlendingData blendingData, CallbackInfo ci) {
         this.components = StaticChunkComponentPlugin.createContainer((Chunk) (Object) this);
     }
 

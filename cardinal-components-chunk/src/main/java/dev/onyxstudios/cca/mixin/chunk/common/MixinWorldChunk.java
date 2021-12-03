@@ -44,6 +44,7 @@ import net.minecraft.world.chunk.ProtoChunk;
 import net.minecraft.world.chunk.UpgradeData;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.gen.chunk.Blender;
+import net.minecraft.world.gen.chunk.BlendingData;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -57,7 +58,8 @@ import java.util.function.Consumer;
 
 @Mixin(WorldChunk.class)
 public abstract class MixinWorldChunk extends Chunk implements ComponentProvider {
-    public MixinWorldChunk(ChunkPos pos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> biome, long inhabitedTime, @Nullable ChunkSection[] sectionArrayInitializer, @Nullable Blender blendingData) {
+
+    public MixinWorldChunk(ChunkPos pos, UpgradeData upgradeData, HeightLimitView heightLimitView, Registry<Biome> biome, long inhabitedTime, @Nullable ChunkSection[] sectionArrayInitializer, @Nullable BlendingData blendingData) {
         super(pos, upgradeData, heightLimitView, biome, inhabitedTime, sectionArrayInitializer, blendingData);
     }
 
@@ -83,8 +85,8 @@ public abstract class MixinWorldChunk extends Chunk implements ComponentProvider
         return new CustomPayloadS2CPacket(ComponentsChunkNetworking.PACKET_ID, buf);
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/chunk/ProtoChunk;Ljava/util/function/Consumer;)V", at = @At("RETURN"))
-    private void copyFromProto(ServerWorld world, ProtoChunk proto, Consumer<WorldChunk> consumer, CallbackInfo ci) {
+    @Inject(method = "<init>(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/chunk/ProtoChunk;Lnet/minecraft/world/chunk/WorldChunk$EntityLoader;)V", at = @At("RETURN"))
+    private void copyFromProto(ServerWorld world, ProtoChunk proto, WorldChunk.EntityLoader entityLoader, CallbackInfo ci) {
         this.getComponentContainer().copyFrom(ComponentProvider.fromChunk(proto).getComponentContainer());
     }
 }

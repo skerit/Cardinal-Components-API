@@ -32,14 +32,14 @@ subprojects {
 
 allprojects {
     apply plugin: "fabric-loom"
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
     version = System.getenv("TRAVIS_TAG") ?: rootProject.mod_version
 
     // import utility functions
     apply from: rootProject.file("utilities.gradle")
 
     tasks.withType(JavaCompile) {
-        it.options.release = 16
+        it.options.release = 17
     }
 
     sourceSets {
@@ -158,7 +158,7 @@ allprojects {
 
 javadoc {
     options {
-        source = "16"
+        source = "17"
         encoding = "UTF-8"
         charSet = "UTF-8"
         memberLevel = JavadocMemberLevel.PACKAGE

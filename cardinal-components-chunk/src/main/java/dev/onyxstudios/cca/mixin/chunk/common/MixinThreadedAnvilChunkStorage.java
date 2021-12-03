@@ -37,11 +37,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.File;
+import java.nio.file.Path;
 
 @Mixin(ThreadedAnvilChunkStorage.class)
 public abstract class MixinThreadedAnvilChunkStorage extends VersionedChunkStorage {
-    public MixinThreadedAnvilChunkStorage(File file, DataFixer dataFixer, boolean bl) {
-        super(file, dataFixer, bl);
+
+    public MixinThreadedAnvilChunkStorage(Path directory, DataFixer dataFixer, boolean dsync) {
+        super(directory, dataFixer, dsync);
     }
 
     @Inject(method = "sendChunkDataPackets", at = @At("RETURN"))
